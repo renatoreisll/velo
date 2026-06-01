@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test'
 
+/// AAA - Arrange, Act, Assert
+
 test('Deve consultar um pedido aprovado', async ({ page }) => {
   await page.goto('http://localhost:5173/')
 
@@ -13,13 +15,14 @@ test('Deve consultar um pedido aprovado', async ({ page }) => {
   await expect(page.getByRole('heading')).toContainText('Consultar Pedido')
 
   //Checkpoint 4: Preencher o campo de busca de pedido
-  await page.getByTestId('search-order-id').fill('VLO-RBAQSL')
+  //await page.getByTestId('search-order-id').fill('VLO-RBAQSL')
+  await page.getByRole('textbox', { name: 'Número do Pedido' }).fill('VLO-RBAQSL')  
 
   //Checkpoint 5: Clicar no botão de busca de pedido
   await page.getByTestId('search-order-button').click()
 
   //Checkpoint 6: Verificar se o pedido foi encontrado
-  await expect(page.getByTestId('order-result-id')).toBeVisible()
+  await expect(page.getByTestId('order-result-id')).toBeVisible();
   await expect(page.getByTestId('order-result-id')).toContainText('VLO-RBAQSL')
 
   //Checkpoint 7: Verificar se o status do pedido é APROVADO  
