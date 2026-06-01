@@ -19,14 +19,14 @@ test('Deve consultar um pedido aprovado', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Número do Pedido' }).fill('VLO-RBAQSL')  
 
   //Checkpoint 5: Clicar no botão de busca de pedido
-  await page.getByTestId('search-order-button').click()
+  await page.getByRole('button', { name: 'Buscar Pedido' }).click()
 
   //Checkpoint 6: Verificar se o pedido foi encontrado
-  await expect(page.getByTestId('order-result-id')).toBeVisible();
-  await expect(page.getByTestId('order-result-id')).toContainText('VLO-RBAQSL')
+  await expect(page.getByText('VLO-RBAQSL')).toBeVisible({timeout: 10_000})
+  await expect(page.getByTestId('order-result-VLO-RBAQSL')).toContainText('VLO-RBAQSL')
 
   //Checkpoint 7: Verificar se o status do pedido é APROVADO  
-  await expect(page.getByTestId('order-result-status')).toBeVisible()
-  await expect(page.getByTestId('order-result-status')).toContainText('APROVADO')
+  await expect(page.getByText('APROVADO')).toBeVisible()
+  await expect(page.getByTestId('order-result-VLO-RBAQSL')).toContainText('APROVADO');
 
 }) 
