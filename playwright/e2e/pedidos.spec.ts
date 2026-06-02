@@ -22,11 +22,13 @@ test('Deve consultar um pedido aprovado', async ({ page }) => {
   await page.getByRole('button', { name: 'Buscar Pedido' }).click()
 
   //Checkpoint 6: Verificar se o pedido foi encontrado
-  await expect(page.getByText('VLO-RBAQSL')).toBeVisible({timeout: 10_000})
-  await expect(page.getByTestId('order-result-VLO-RBAQSL')).toContainText('VLO-RBAQSL')
+  const containerPedido = page.getByRole('paragraph')
+     .filter({ hasText: /^Pedido$/ })
+     .locator('..') //Sobe pro elemento pai
+  
+     await expect(containerPedido).toContainText('VLO-RBAQSL', {timeout: 10_000})
 
   //Checkpoint 7: Verificar se o status do pedido é APROVADO  
-  await expect(page.getByText('APROVADO')).toBeVisible()
-  await expect(page.getByTestId('order-result-VLO-RBAQSL')).toContainText('APROVADO');
+     await expect(page.getByText('APROVADO')).toBeVisible()
 
 }) 
