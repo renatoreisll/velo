@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { generateOrderCode } from '../support/helpers'
+import { OrderLockupPage } from '../support/pages/OrderLockupPage'
 
 /// AAA - Arrange, Act, Assert
 
@@ -36,10 +37,10 @@ test.describe('Consulta de pedido', () => {
 
       // -------------------->  Act
       //Preencher o campo de busca de pedido
-      await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
+      const consultaPedido = new OrderLockupPage(page)
+      await consultaPedido.searchOrder(order.number)
 
-      //Clicar no botão de busca de pedido
-      await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+
 
       // -------------------->  Assert
       //Verificar se o pedido foi encontrado
@@ -99,11 +100,8 @@ test.describe('Consulta de pedido', () => {
       }
 
       // -------------------->  Act
-      //Preencher o campo de busca de pedido
-      await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
-
-      //Clicar no botão de busca de pedido
-      await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+      const consultaPedido = new OrderLockupPage(page)
+      await consultaPedido.searchOrder(order.number)
 
       // -------------------->  Assert
       //Verificar se o pedido foi encontrado
@@ -165,10 +163,8 @@ test.describe('Consulta de pedido', () => {
 
       // -------------------->  Act
       //Preencher o campo de busca de pedido
-      await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order.number)
-
-      //Clicar no botão de busca de pedido
-      await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+      const consultaPedido = new OrderLockupPage(page)
+      await consultaPedido.searchOrder(order.number)
 
       // -------------------->  Assert
       //Verificar se o pedido foi encontrado
@@ -214,9 +210,8 @@ test.describe('Consulta de pedido', () => {
    test('Deve exibir mensagem quando o pedido não for encontrado', async ({ page }) => {
       const order = generateOrderCode()
 
-      await page.getByRole('textbox', { name: 'Número do Pedido' }).fill(order)
-
-      await page.getByRole('button', { name: 'Buscar Pedido' }).click()
+      const consultaPedido = new OrderLockupPage(page)
+      await consultaPedido.searchOrder(order)
       await expect(page.locator('#root')).toMatchAriaSnapshot(`
          - img
          - heading "Pedido não encontrado" [level=3]
