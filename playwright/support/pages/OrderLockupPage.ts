@@ -1,6 +1,15 @@
 import { Page, expect } from '@playwright/test'
 
-type OrderStatus = 'APROVADO' | 'REPROVADO' | 'EM_ANALISE'
+export type OrderStatus = 'APROVADO' | 'REPROVADO' | 'EM_ANALISE'
+
+export interface OrderDetailsExpectation {
+    number: string
+    status: OrderStatus
+    color: string
+    wheels: string
+    customer: { name: string; email: string }
+    payment: string
+}
 
 export class OrderLockupPage {
 
@@ -39,7 +48,7 @@ export class OrderLockupPage {
 
     }
 
-    async validateOrderDetails(order: any) {
+    async validateOrderDetails(order: OrderDetailsExpectation) {
         await expect(this.page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
             - img
             - paragraph: Pedido
@@ -71,7 +80,7 @@ export class OrderLockupPage {
             `)
     }
 
-    async validateOrderNotfound() {
+    async validateOrderNotFound() {
         await expect(this.page.locator('#root')).toMatchAriaSnapshot(`
             - img
             - heading "Pedido não encontrado" [level=3]

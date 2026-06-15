@@ -26,8 +26,8 @@ test.describe('Consulta de Pedido', () => {
       color: 'Lunar White',
       wheels: 'aero Wheels',
       customer: {
-         name: 'Renato Reis',
-         email: 'renatoreis@live.com'
+        name: 'Renato Reis',
+        email: 'renatoreis@live.com'
       },
       payment: 'À Vista'
     }
@@ -37,37 +37,7 @@ test.describe('Consulta de Pedido', () => {
     await orderLockupPage.searchOrder(order.number)
 
     // Assert
-    await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
-      - img
-      - paragraph: Pedido
-      - paragraph: ${order.number}
-      - status:
-        - img
-        - text: ${order.status}
-      - img "Velô Sprint"
-      - paragraph: Modelo
-      - paragraph: Velô Sprint
-      - paragraph: Cor
-      - paragraph: ${order.color}
-      - paragraph: Interior
-      - paragraph: cream
-      - paragraph: Rodas
-      - paragraph: ${order.wheels}
-      - heading "Dados do Cliente" [level=4]
-      - paragraph: Nome
-      - paragraph: ${order.customer.name}
-      - paragraph: Email
-      - paragraph: ${order.customer.email}
-      - paragraph: Loja de Retirada
-      - paragraph
-      - paragraph: Data do Pedido
-      - paragraph: /\\d+\\/\\d+\\/\\d+/
-      - heading "Pagamento" [level=4]
-      - paragraph: ${order.payment}
-      - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
-      `);
-
-    // Validação do badge de status encapsulada no Page Object
+    await orderLockupPage.validateOrderDetails(order)
     await orderLockupPage.validateStatusBadge(order.status)
 
   })
@@ -81,8 +51,8 @@ test.describe('Consulta de Pedido', () => {
       color: 'Midnight Black',
       wheels: 'sport Wheels',
       customer: {
-         name: 'Maria Aparecida',
-         email: 'maria@live.com'
+        name: 'Maria Aparecida',
+        email: 'maria@live.com'
       },
       payment: 'À Vista'
     }
@@ -92,37 +62,7 @@ test.describe('Consulta de Pedido', () => {
     await orderLockupPage.searchOrder(order.number)
 
     // Assert
-    await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
-      - img
-      - paragraph: Pedido
-      - paragraph: ${order.number}
-      - status:
-        - img
-        - text: ${order.status}
-      - img "Velô Sprint"
-      - paragraph: Modelo
-      - paragraph: Velô Sprint
-      - paragraph: Cor
-      - paragraph: ${order.color}
-      - paragraph: Interior
-      - paragraph: cream
-      - paragraph: Rodas
-      - paragraph: ${order.wheels}
-      - heading "Dados do Cliente" [level=4]
-      - paragraph: Nome
-      - paragraph: ${order.customer.name}
-      - paragraph: Email
-      - paragraph: ${order.customer.email}
-      - paragraph: Loja de Retirada
-      - paragraph
-      - paragraph: Data do Pedido
-      - paragraph: /\\d+\\/\\d+\\/\\d+/
-      - heading "Pagamento" [level=4]
-      - paragraph: ${order.payment}
-      - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
-      `);
-
-    // Validação do badge de status encapsulada no Page Object
+    await orderLockupPage.validateOrderDetails(order)
     await orderLockupPage.validateStatusBadge(order.status)
   })
 
@@ -135,8 +75,8 @@ test.describe('Consulta de Pedido', () => {
       color: 'Glacier Blue',
       wheels: 'aero Wheels',
       customer: {
-         name: 'Andre Reis',
-         email: 'andre@live.com'
+        name: 'Andre Reis',
+        email: 'andre@live.com'
       },
       payment: 'À Vista'
     }
@@ -146,37 +86,7 @@ test.describe('Consulta de Pedido', () => {
     await orderLockupPage.searchOrder(order.number)
 
     // Assert
-    await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(`
-      - img
-      - paragraph: Pedido
-      - paragraph: ${order.number}
-      - status:
-        - img
-        - text: ${order.status}
-      - img "Velô Sprint"
-      - paragraph: Modelo
-      - paragraph: Velô Sprint
-      - paragraph: Cor
-      - paragraph: ${order.color}
-      - paragraph: Interior
-      - paragraph: cream
-      - paragraph: Rodas
-      - paragraph: ${order.wheels}
-      - heading "Dados do Cliente" [level=4]
-      - paragraph: Nome
-      - paragraph: ${order.customer.name}
-      - paragraph: Email
-      - paragraph: ${order.customer.email}
-      - paragraph: Loja de Retirada
-      - paragraph
-      - paragraph: Data do Pedido
-      - paragraph: /\\d+\\/\\d+\\/\\d+/
-      - heading "Pagamento" [level=4]
-      - paragraph: ${order.payment}
-      - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
-      `);
-
-    // Validação do badge de status encapsulada no Page Object
+    await orderLockupPage.validateOrderDetails(order)
     await orderLockupPage.validateStatusBadge(order.status)
   })
 
@@ -187,11 +97,16 @@ test.describe('Consulta de Pedido', () => {
     const orderLockupPage = new OrderLockupPage(page)
     await orderLockupPage.searchOrder(order)
 
-    await expect(page.locator('#root')).toMatchAriaSnapshot(`
-      - img
-      - heading "Pedido não encontrado" [level=3]
-      - paragraph: Verifique o número do pedido e tente novamente
-      `)
+    await orderLockupPage.validateOrderNotFound()
+
+  })
+
+  test('deve exibir mensagem quando o código do pedido está fora do padrão', async ({ page }) => {
+
+    const orderLockupPage = new OrderLockupPage(page)
+    await orderLockupPage.searchOrder('abc123')
+
+    await orderLockupPage.validateOrderNotFound()
 
   })
 })
