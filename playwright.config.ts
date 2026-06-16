@@ -12,15 +12,16 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  
-  // Tempo maximo de espera para o teste
+
+  // Tempo máximo para cada teste completo (3o segundo é o padrão)
   timeout: 60_000,
 
-  // Tempo maximo de espera para as assertions  (toBeVisible, toContainText, etc.) de 5 segundos
+  // Tempo máximo para assertions (toBeVisible(), toHaveText()) 5 segundos
   expect: {
-    timeout: 5_000,  //não vale a pena alterar pois o teste vai falhar se não encontrar o elemento, vale a pena usar o timeout explicito
+    timeout: 5_000 // não vale a pena aumentar porque o teste pode ficar lento no tempo de execução, vale a pena usar o time explicito
   },
-  
+
+
   testDir: './playwright/e2e',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -34,19 +35,18 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('')`. */
-    // baseURL: 'http://localhost:3000',
+    /* Base URL to use in actions like `await page.goto('/')`. */
+    baseURL: 'http://localhost:5173',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'retain-on-failure',
+    trace: 'on',
 
-
-    // Tempo máximo para ações interativas como click(), fill(), etc.
-    // Quando o valor é 0, herda do limite do timeout geral do teste que neste caso é 60 segundos
+    // Tempo máximo para ações interativas como click(), fill()
+    // Quando o valor é 0, herda o limite do timeout geral do teste
     actionTimeout: 5_000,
 
-    // Tempo máximo para navegação como goto(), waitForURL(), etc.
-    // Quando o valor é zero, também herda do limite do timeout geral do teste que neste caso é 60 segundos
+    // Tempo máximo para navegações como goto(), waitForURL()
+    // Quando o valor é 0, herda o limite do timeout geral do teste
     navigationTimeout: 10_000
   },
 
@@ -55,17 +55,17 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-    }//,
+    },
 
-    //{
-     // name: 'firefox',
-      //use: { ...devices['Desktop Firefox'] },
-    //},
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
-    //{
-     // name: 'webkit',
-      //use: { ...devices['Desktop Safari'] },
-    //},
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
     // {
