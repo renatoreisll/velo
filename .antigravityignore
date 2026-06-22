@@ -1,0 +1,36 @@
+# Dependências
+node_modules/
+
+# Builds e artefatos de compilação
+dist/
+build/
+out/
+.next/
+.nuxt/
+
+# Diretórios de relatórios e cobertura de testes (ex: Playwright/Jest)
+playwright-report/
+test-results/
+coverage/
+
+# Logs e arquivos de cache
+*.log
+.eslintcache
+.cache/
+
+# Ativos binários e mídias pesadas
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+*.mp4
+*.webm
+*.pdf
+
+# Configurações locais de IDE e SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
