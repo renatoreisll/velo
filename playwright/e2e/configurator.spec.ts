@@ -23,4 +23,20 @@ test.describe('Configuração do Veículo', () => {
     await app.configurator.selectWheel('aero')
     await app.configurator.validateTotalPrice('R$ 40.000,00')
   })
+
+  test('deve atualizar o preço ao marcar/desmarcar opcionais e redirecionar ao checkout', async ({ app }) => {
+    await app.configurator.validateTotalPrice('R$ 40.000,00')
+
+    await app.configurator.toggleOptional('precision-park')
+    await app.configurator.validateTotalPrice('R$ 45.500,00')
+
+    await app.configurator.toggleOptional('flux-capacitor')
+    await app.configurator.validateTotalPrice('R$ 50.500,00')
+
+    await app.configurator.toggleOptional('precision-park')
+    await app.configurator.toggleOptional('flux-capacitor')
+    await app.configurator.validateTotalPrice('R$ 40.000,00')
+
+    await app.configurator.goToCheckout()
+  })
 })

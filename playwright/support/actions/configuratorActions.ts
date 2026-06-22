@@ -2,6 +2,7 @@ import { Page, expect } from '@playwright/test'
 
 export type ExteriorColor = 'glacier-blue' | 'midnight-black' | 'lunar-white'
 export type WheelType = 'aero' | 'sport'
+export type OptionalFeature = 'precision-park' | 'flux-capacitor'
 
 export function createConfiguratorActions(page: Page) {
 
@@ -11,6 +12,7 @@ export function createConfiguratorActions(page: Page) {
 
   const colorOption = (color: ExteriorColor) => page.getByTestId(`color-option-${color}`)
   const wheelOption = (wheel: WheelType) => page.getByTestId(`wheel-option-${wheel}`)
+  const optionalOption = (opt: OptionalFeature) => page.getByTestId(`opt-${opt}`)
 
   return {
 
@@ -20,6 +22,7 @@ export function createConfiguratorActions(page: Page) {
       checkoutButton,
       colorOption,
       wheelOption,
+      optionalOption,
     },
 
     async open() {
@@ -35,6 +38,19 @@ export function createConfiguratorActions(page: Page) {
     async selectWheel(wheel: WheelType) {
       await wheelOption(wheel).click()
       await expect(carImage).toHaveAttribute('alt', new RegExp(` with ${wheel} wheels`))
+    },
+
+    async toggleOptional(opt: OptionalFeature) {
+      const target = optionalOption(opt)
+      const current = await target.getAttribute('data-state')
+      const next = current === 'checked' ? 'unchecked' : 'checked'
+      await target.click()
+      await expect(target).toHaveAttribute('data-state', next)
+    },
+
+    async goToCheckout() {
+      await checkoutButton.click()
+      await expect(page).toHaveURL(/\/order$/)
     },
 
     async validateTotalPrice(price: string) {
