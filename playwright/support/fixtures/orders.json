@@ -1,0 +1,35 @@
+{
+  "aprovado": {
+    "number": "VLO-RBAQSL",
+    "status": "APROVADO",
+    "color": "Lunar White",
+    "wheels": "aero Wheels",
+    "customer": {
+      "name": "Renato Reis",
+      "email": "renatoreis@live.com"
+    },
+    "payment": "À Vista"
+  },
+  "reprovado": {
+    "number": "VLO-DOW0ZN",
+    "status": "REPROVADO",
+    "color": "Midnight Black",
+    "wheels": "sport Wheels",
+    "customer": {
+      "name": "Maria Aparecida",
+      "email": "maria@live.com"
+    },
+    "payment": "À Vista"
+  },
+  "emAnalise": {
+    "number": "VLO-PWGBSU",
+    "status": "EM_ANALISE",
+    "color": "Glacier Blue",
+    "wheels": "aero Wheels",
+    "customer": {
+      "name": "Andre Reis",
+      "email": "andre@live.com"
+    },
+    "payment": "À Vista"
+  }
+}

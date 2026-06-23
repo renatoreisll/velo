@@ -6,7 +6,9 @@ import type { OrderDetails } from '../support/actions/orderLockupActions'
 
 import { seedOrders } from '../support/database/seed'
 
-test.describe('Consulta de Pedido', () => {
+import ordersData from '../support/fixtures/orders.json' assert { type: 'json' }
+
+test.describe.serial('Consulta de Pedido', () => {
 
   test.beforeAll(async () => {
     await seedOrders()
@@ -17,17 +19,7 @@ test.describe('Consulta de Pedido', () => {
   })
 
   test('deve consultar um pedido aprovado', async ({ app }) => {
-    const order: OrderDetails = {
-      number: 'VLO-RBAQSL',
-      status: 'APROVADO' as const,
-      color: 'Lunar White',
-      wheels: 'aero Wheels',
-      customer: {
-        name: 'Renato Reis',
-        email: 'renatoreis@live.com'
-      },
-      payment: 'À Vista'
-    }
+    const order = ordersData.aprovado as OrderDetails
 
     await app.orderLockup.searchOrder(order.number)
 
@@ -36,17 +28,7 @@ test.describe('Consulta de Pedido', () => {
   })
 
   test('deve consultar um pedido reprovado', async ({ app }) => {
-    const order: OrderDetails = {
-      number: 'VLO-DOW0ZN',
-      status: 'REPROVADO' as const,
-      color: 'Midnight Black',
-      wheels: 'sport Wheels',
-      customer: {
-        name: 'Maria Aparecida',
-        email: 'maria@live.com'
-      },
-      payment: 'À Vista'
-    }
+    const order = ordersData.reprovado as OrderDetails
 
     await app.orderLockup.searchOrder(order.number)
 
@@ -55,17 +37,7 @@ test.describe('Consulta de Pedido', () => {
   })
 
   test('deve consultar um pedido em analise', async ({ app }) => {
-    const order: OrderDetails = {
-      number: 'VLO-PWGBSU',
-      status: 'EM_ANALISE' as const,
-      color: 'Glacier Blue',
-      wheels: 'aero Wheels',
-      customer: {
-        name: 'Andre Reis',
-        email: 'andre@live.com'
-      },
-      payment: 'À Vista'
-    }
+    const order = ordersData.emAnalise as OrderDetails
 
     await app.orderLockup.searchOrder(order.number)
 

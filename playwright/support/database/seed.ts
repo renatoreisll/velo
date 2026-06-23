@@ -52,6 +52,9 @@ export async function seedOrders() {
     }
   ]
 
+  // Deleta todos os registros da tabela orders para garantir ambiente limpo
+  await db.deleteFrom('orders').execute()
+
   for (const order of orders) {
     await db.insertInto('orders')
       .values(order)
