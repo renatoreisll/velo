@@ -4,7 +4,13 @@ import { generateOrderCode } from '../support/helpers'
 
 import type { OrderDetails } from '../support/actions/orderLockupActions'
 
+import { seedOrders } from '../support/database/seed'
+
 test.describe('Consulta de Pedido', () => {
+
+  test.beforeAll(async () => {
+    await seedOrders()
+  })
 
   test.beforeEach(async ({ app }) => {
     await app.orderLockup.open()
