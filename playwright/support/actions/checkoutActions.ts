@@ -5,7 +5,7 @@ export function createCheckoutActions(page: Page) {
         async expectLoaded() {
             await expect(page.getByRole('heading', { name: 'Finalizar Pedido' })).toBeVisible()
         },
-        async expectSummaryTotal(price: string) {
+        async expectSummaryTotal(price: string | RegExp) {
             await expect(page.getByTestId('summary-total-price')).toHaveText(price)
         },
         async fillPersonalData(data: {
@@ -25,6 +25,14 @@ export function createCheckoutActions(page: Page) {
         async selectStore(storeName: string) {
             await page.getByTestId('checkout-store').click()
             await page.getByRole('option', { name: storeName }).click()
+        },
+
+        async selectPaymentAvista() {
+            await page.getByTestId('payment-avista').click()
+        },
+
+        async expectPaymentAvistaTotal(price: string | RegExp) {
+            await expect(page.getByTestId('payment-avista').locator('p').nth(1)).toHaveText(price)
         },
 
         async acceptTerms() {
