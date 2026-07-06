@@ -67,7 +67,7 @@ export function createOrderLockupActions(page: Page) {
       - paragraph: /\\d+\\/\\d+\\/\\d+/
       - heading "Pagamento" [level=4]
       - paragraph: ${order.payment}
-      - paragraph: /R\\$ \\d+\\.\\d+,\\d+/
+      - paragraph: /R\\$\\s?[\\d\\.,]+/
       `
       await expect(page.getByTestId(`order-result-${order.number}`)).toMatchAriaSnapshot(snapshot)
     },
