@@ -94,13 +94,29 @@ test.describe('Checkout', () => {
       lastname: 'Silva',
       email: 'joao.silva@email.com',
       phone: '(11) 99999-9999',
-      document: '529.982.247-25'
+      document: '529.982.247-25',
+      store: 'Velô Paulista',
+      paymentMethod: 'À vista',
+      totalPrice: 'R$ 40.000,00'
     }
 
     test('CT05 - Checkout e Confirmação - Pagamento à Vista', async ({ page, app }) => {
+      // Step 0: Ponta a ponta desde a home até o checkout
+      await page.goto('/')
+      await page.getByTestId('hero-cta-primary').click()
+      await expect(page).toHaveURL(/\/configure/)
+
+      // Selecionando opções padrão
+      await app.configurator.selectColor('glacier-blue')
+      await app.configurator.selectWheel('aero')
+
+      // Indo até o Checkout
+      await app.configurator.goToCheckout()
+      await app.checkout.expectLoaded()
+
       // Step 1: Preencher o formulário com dados válidos e selecionar a loja
       await app.checkout.fillPersonalData(validPersonalData)
-      await app.checkout.selectStore('Velô Paulista')
+      await app.checkout.selectStore(validPersonalData.store)
 
       // Verificar que não há erros de validação
       await expect(page.getByTestId('error-name')).not.toBeVisible()
@@ -114,9 +130,9 @@ test.describe('Checkout', () => {
       await app.checkout.selectPaymentAvista()
 
       // O valor total de "Resumo" e "À Vista" exibem R$ 40.000,00
-      const priceRegex = /R\$\s*40\.000,00/
-      await app.checkout.expectSummaryTotal(priceRegex)
-      await app.checkout.expectPaymentAvistaTotal(priceRegex)
+
+      await app.checkout.expectSummaryTotal(validPersonalData.totalPrice)
+      await app.checkout.expectPaymentAvistaTotal(validPersonalData.totalPrice)
 
       // Step 3: Marcar o aceite dos termos de uso e clicar em "Confirmar Pedido"
       await app.checkout.acceptTerms()
